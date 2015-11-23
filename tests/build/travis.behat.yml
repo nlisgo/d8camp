@@ -1,0 +1,9 @@
+imports:
+  - behat.yml.dist
+
+default:
+  extensions:
+    eLife\IsolatedDrupalBehatExtension:
+      db_url: 'mysql://root:@localhost/d8camp'
+    Behat\MinkExtension:
+      base_url: 'http://127.0.0.1:80'

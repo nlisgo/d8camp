@@ -1,0 +1,25 @@
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext: ~
+        - IsolatedDrupalContext: ~
+        - IsolatedPropeopleContext: ~
+        - Drupal\DrupalExtension\Context\MinkContext: ~
+        - Drupal\DrupalExtension\Context\MessageContext: ~
+  extensions:
+    eLife\IsolatedDrupalBehatExtension:
+      profile: 'config_installer'
+      settings_file: '%paths.base%/../../src/settings.php'
+    Behat\MinkExtension:
+      goutte: ~
+      selenium2: ~
+      base_url: 'http://d8camp-test.dev'
+      files_path: %paths.base%/images
+    Drupal\DrupalExtension:
+      blackbox: ~
+      api_driver: 'drupal'
+      drush:
+        root: '%paths.base%/../../web'
+      drupal:
+        drupal_root: '%paths.base%/../../web'

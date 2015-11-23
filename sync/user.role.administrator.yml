@@ -1,0 +1,9 @@
+uuid: dbcc3951-9ced-4717-9208-084e3148bdd8
+langcode: en
+status: true
+dependencies: {  }
+id: administrator
+label: Administrator
+weight: 2
+is_admin: true
+permissions: {  }

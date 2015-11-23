@@ -1,0 +1,17 @@
+{
+    "name": "d8camp/d8camp",
+    "description": "Drupal8Camp Leeds May 21st - 22nd.",
+    "require": {
+        "wikimedia/composer-merge-plugin": "~1.3@dev"
+    },
+    "extra": {
+        "merge-plugin": {
+            "include": [
+                "./tests/*/composer.json"
+            ]
+        }
+    },
+    "config": {
+        "bin-dir": "bin/"
+    }
+}

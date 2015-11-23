@@ -1,0 +1,18 @@
+api: 2
+core: '8.x'
+
+defaults:
+  projects:
+    subdir: 'contrib'
+
+projects:
+  config_devel:
+    version: '1.0-beta16'
+  default_content:
+    version: '1.0-alpha2'
+  devel:
+    version: '1.x-dev' # no stable release available
+    download:
+      type: 'git'
+      url: 'http://git.drupal.org/project/devel.git'
+      revision: 'fe3e6de67a953866a1b0e5b2227d1daee5586fd9'

@@ -1,0 +1,15 @@
+api: 2
+core: 8.x
+
+projects:
+  drupal:
+    version: 8.0.0
+  config_installer:
+    type: 'profile'
+    version: '1.x-dev' # no stable release available
+    download:
+      type: 'git'
+      url: 'http://git.drupal.org/project/config_installer.git'
+      revision: '290fa90978f4e748a762cc0db9120b47fd165fcc'
+    patch:
+      - 'https://www.drupal.org/files/issues/config_installer_drush_site_install-2495935-6.patch'

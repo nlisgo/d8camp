@@ -1,0 +1,70 @@
+language: php
+
+php:
+  - 5.6
+  - 7.0
+
+matrix:
+  allow_failures:
+    - php: 7.0
+
+mysql:
+  database: d8camp
+  username: root
+  encoding: utf8
+
+cache:
+  apt: true
+  directories:
+    - $HOME/.composer/cache
+
+addons:
+  apt:
+    packages:
+      - apache2
+      - libapache2-mod-fastcgi
+
+env:
+  global:
+    - DISPLAY=:99.0
+
+before_install:
+  - composer self-update
+
+install:
+  # Create MySQL Database
+  - mysql -e 'create database d8camp_profile;'
+
+  # Set up Apache
+  - sudo a2enmod rewrite actions fastcgi alias
+  - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
+  - if [[ -f ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ]] ; then sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.d/www.conf ; fi
+  - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+
+  # configure apache virtual hosts
+  - sudo cp -f tests/build/travis-ci-apache /etc/apache2/sites-available/default
+  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
+  # restart the server
+  - sudo service apache2 restart
+  - cat /etc/apache2/sites-available/default
+
+  # Install latest Drush 7.
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - composer global require --prefer-dist --no-interaction drush/drush:8.*
+
+  # Disable sendmail
+  - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+  # Set up site
+  - ./setup.sh
+
+  # Populate the local settings file
+  - cp ./tests/build/travis.local.settings.php ./local.settings.php
+
+  # Configure Behat
+  - cp ./tests/build/travis.behat.yml ./tests/behat/behat.yml
+
+script:
+  - ./run-tests.sh --no-clean-up
+  - cat ./web/sites/d8camp-test.dev/settings.php

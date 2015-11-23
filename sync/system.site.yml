@@ -1,0 +1,12 @@
+uuid: d0af106a-34f2-4008-ad09-9b7cc91731b7
+name: Drupal8Camp
+mail: admin@example.com
+slogan: ''
+page:
+  403: ''
+  404: ''
+  front: /node
+admin_compact_mode: false
+weight_select_max: 100
+langcode: en
+default_langcode: en
